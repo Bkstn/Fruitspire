@@ -12,11 +12,6 @@ db.init_app(app)
 def home():
     return jsonify({"message": "Fruitspire API is running"})
 
-@app.route("/fruits")
-def get_fruits():
-    fruits = FoodItem.query.all()
-    return jsonify([fruit.to_dict() for fruit in fruits])
-
 #this allows to add data using PowerShell 
 @app.route("/fruits", methods = ["POST"])
 def add_fruit():
@@ -28,6 +23,13 @@ def add_fruit():
 
     return jsonify(new_fruit.to_dict()), 201
 
+@app.route("/fruits", methods = ["GET"])
+def get_fruits():
+    fruits = FoodItem.query.all()
+    return jsonify([fruit.to_dict() for fruit in fruits]), 200
+
+
+    
 if __name__ == "__main__":
     with app.app_context():
         db.create_all()
